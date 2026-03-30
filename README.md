@@ -59,7 +59,7 @@ npx shadcn@latest add card skeleton
 npm install lucide-react
 
 # bun
-bunx --bun shadcn@latest init
+bunx shadcn@latest init
 bunx shadcn@latest add card skeleton
 bun add lucide-react
 ```
