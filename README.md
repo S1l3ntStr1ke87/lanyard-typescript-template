@@ -53,16 +53,15 @@ components/discord-presence.tsx  →  components/discord-presence.tsx
 The component uses [shadcn/ui](https://ui.shadcn.com/) primitives (`Card`, `Skeleton`) and [lucide-react](https://lucide.dev/) icons.
 
 ```bash
-# shadcn/ui (if not already set up)
+# npm
 npx shadcn@latest init
-
-# Add the required components
 npx shadcn@latest add card skeleton
-
-# lucide-react
 npm install lucide-react
-# or
-pnpm add lucide-react
+
+# bun
+bunx --bun shadcn@latest init
+bunx shadcn@latest add card skeleton
+bun add lucide-react
 ```
 
 > **Don't use shadcn/ui?**  
