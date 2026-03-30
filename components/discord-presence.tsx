@@ -237,7 +237,7 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
             <div className="flex items-center gap-3">
               <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
                 <Image
-                  src={getActivityAssetUrl(appleMusicActivity.application_id, appleMusicActivity.assets?.large_image) || "/default-apple-music.png"}
+                  src={getActivityAssetUrl(appleMusicActivity.application_id, appleMusicActivity.assets?.large_image) || "/discord-unknown.png"}
                   alt={appleMusicActivity.assets?.large_text || "Apple Music"}
                   width={48}
                   height={48}
