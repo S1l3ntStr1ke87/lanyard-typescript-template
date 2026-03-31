@@ -4,18 +4,12 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-  useLanyard,
-  getDiscordAvatarUrl,
-  getActivityAssetUrl,
-  formatElapsedTime,
-  getStatusColor,
-  type LanyardActivity,
-} from "../../hooks/use-lanyard"
+import { getDiscordAvatarUrl, getActivityAssetUrl, formatElapsedTime, getStatusColor, type LanyardActivity, } from "@/hooks/use-lanyard"
 import { Music, Gamepad2, Monitor, Smartphone, Globe } from "lucide-react"
 import { SpotifyActivity } from "./activities/spotify"
 import { AppleMusicActivity } from "./activities/applemusic"
 import { Foobar2000Activity } from "./activities/foobar2000"
+import { useActivityHelpers } from "./activity-helpers"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -36,17 +30,8 @@ interface DiscordPresenceProps {
 }
 
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
-  const { data, loading, error } = useLanyard(userId)
+  const { data, loading, error, appleMusicActivity, foobar2000Activity } = useActivityHelpers(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
-  const appleMusicActivity = data?.activities.find(
-  (a) =>
-    a.name === "Apple Music" ||
-    a.assets?.small_text === "Apple Music"
-  )
-  const foobar2000Activity = data?.activities.find(
-    (a) =>
-      a.name === "foobar2000"
-  )
 
   // Update elapsed time every second
   useEffect(() => {
