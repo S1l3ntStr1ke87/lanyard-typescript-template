@@ -13,6 +13,8 @@ import { useActivityHelpers } from "./activity-helpers"
 import { YoutubeActivity } from "./activities/youtube"
 import { YoutubeMusicActivity } from "./activities/youtubemusic"
 import { AimpActivity } from "./activities/aimp"
+import { SoundcloudActivity } from "./activities/soundcloud"
+import { TwitchActivity } from "./activities/twitch"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -189,6 +191,11 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
           <YoutubeActivity activity={youtubeActivity} />
         )}
 
+        {/* ── Twitch Activity ── */}
+        {twitchactivity && (
+          <TwitchActivity activity={twitchactivity} />
+        )}
+
         {/* ── Youtube Activity ── */}
         {youtubemusicActivity && (
           <YoutubeMusicActivity activity={youtubemusicActivity} />
@@ -197,6 +204,16 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         {/* ── AIMP Activity ── */}
         {aimpactivity && (
           <AimpActivity activity={aimpactivity} />
+        )}
+
+        {/* ── AIMP Activity ── */}
+        {aimpactivity && (
+          <AimpActivity activity={aimpactivity} />
+        )}
+
+        {/* ── SoundCloud Activity ── */}
+        {soundcloudactivity && (
+          <SoundcloudActivity activity={soundcloudactivity} />
         )}
 
         {/* ── Other Activities ── */}

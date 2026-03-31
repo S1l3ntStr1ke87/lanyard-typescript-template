@@ -8,7 +8,9 @@ export interface LanyardActivity {
   name: string
   type: number
   state?: string
+  state_url?: string
   details?: string
+  details_url?: string
   timestamps?: {
     start?: number
     end?: number
@@ -16,8 +18,10 @@ export interface LanyardActivity {
   assets?: {
     large_image?: string
     large_text?: string
+    large_url?: string
     small_image?: string
     small_text?: string
+    small_url?: string
   }
   application_id?: string
   sync_id?: string
@@ -231,6 +235,27 @@ export function getActivityAssetUrl(
   }
 
   return `https://cdn.discordapp.com/app-assets/${applicationId}/${assetId}.png`
+}
+
+export async function getAppIconUrl(applicationId: string): Promise<string | null> {
+  try {
+    const res = await fetch(`https://discord.com/api/v10/applications/${applicationId}/rpc`)
+    const json = await res.json()
+    if (json.icon) {
+      return `https://cdn.discordapp.com/app-icons/${applicationId}/${json.icon}.png`
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
+export async function getActivityImageUrl(applicationId: string | undefined, assets?: LanyardActivity["assets"]): Promise<string> {
+  return (
+    getActivityAssetUrl(applicationId, assets?.large_image) ||
+    (applicationId ? await getAppIconUrl(applicationId) : null) ||
+    "/discord-unknown.png"
+  )
 }
 
 // Helper to format elapsed time

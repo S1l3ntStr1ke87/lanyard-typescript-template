@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityAssetUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getAppIconUrl, getActivityAssetUrl, type LanyardActivity, getActivityImageUrl } from "@/hooks/use-lanyard"
 
 interface AppleMusicActivityProps {
   activity: LanyardActivity
-  progress?: number
+  progress?: number // optional, allows passing progress from parent
 }
 
 export function AppleMusicActivity({ activity, progress: parentProgress }: AppleMusicActivityProps) {
@@ -28,20 +28,24 @@ export function AppleMusicActivity({ activity, progress: parentProgress }: Apple
     return () => clearInterval(interval)
   }, [activity])
 
-  const largeImageUrl =
-    getActivityAssetUrl(activity.application_id, activity.assets?.large_image) || "/discord-unknown.png"
+  const isKizzy = activity.type === 0
 
-  const albumName = activity.assets?.large_text || "Apple Music"
-  const songTitle = activity.details || "Unknown Song"
-  const artist = activity.state || "Unknown Artist"
+  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+
+  useEffect(() => {
+    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+
+  const albumName = isKizzy ? activity.state : (activity.assets?.large_text || "Apple Music")
+  const songTitle = isKizzy ? activity.name : activity.details || "Unknown Song"
+  const artist = isKizzy ? activity.details : activity.state || "Unknown Artist"
 
   return (
     <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={largeImageUrl}
-            alt={albumName}
+            src={imageUrl}
+            alt="Album Art"
             width={48}
             height={48}
             className="w-full h-full object-cover"

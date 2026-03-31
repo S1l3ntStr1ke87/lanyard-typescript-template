@@ -4,22 +4,26 @@ export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
 const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
-const otherActivities = mainActivities?.filter(
-  (a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000" && a.name !== "YouTube" && a.name !== "YouTube Music" && a.name !== "AIMP"
-) ?? []
-
-const appleMusicActivity = data?.activities.find(
-  (a) =>
-    a.name === "Apple Music" ||
-    a.assets?.small_text === "Apple Music"
+  const appleMusicActivity = data?.activities.find(
+    (a) =>
+      a.name === "Apple Music" ||
+      a.assets?.small_text === "Apple Music" ||
+      a.assets?.large_text === "Apple Music"
   )
+
   const foobar2000Activity = data?.activities.find(
     (a) =>
       a.name === "foobar2000"
   )
+
   const youtubeActivity = data?.activities.find(
     (a) =>
       a.name === "YouTube"
+  )
+
+  const twitchactivity = data?.activities.find(
+    (a) =>
+      a.application_id === "802958789555781663"
   )
 
   const youtubemusicActivity = data?.activities.find(
@@ -32,5 +36,24 @@ const appleMusicActivity = data?.activities.find(
       a.name === "AIMP"
   )
 
-  return { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity }
+  const soundcloudactivity = data?.activities.find(
+    (a) =>
+      a.name === "SoundCloud"
+  )
+
+const activities = [
+  appleMusicActivity,
+  foobar2000Activity,
+  youtubeActivity,
+  youtubemusicActivity,
+  aimpactivity,
+  soundcloudactivity,
+  twitchactivity,
+].filter(Boolean)
+
+const otherActivities = mainActivities.filter(
+  (a) => !activities.some((s) => s?.id === a.id)
+)
+
+  return { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity }
 }

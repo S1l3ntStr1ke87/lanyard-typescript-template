@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { useLanyard, getActivityAssetUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
 
 interface Foobar2000ActivityProps {
   activity: LanyardActivity
@@ -32,8 +32,10 @@ export function Foobar2000Activity({ activity, progress: parentProgress }: Fooba
     return () => clearInterval(interval)
   }, [activity, showProgress])
 
-  const largeImageUrl =
-    getActivityAssetUrl(activity.application_id, activity.assets?.large_image) || "/discord-unknown.png"
+  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+
+  useEffect(() => {
+    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
 
   const rawalbumName = activity.assets?.large_text || "Foobar2000"
   const albumName = rawalbumName.startsWith("on ") ? rawalbumName.slice(3) : rawalbumName 
@@ -46,7 +48,7 @@ export function Foobar2000Activity({ activity, progress: parentProgress }: Fooba
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={largeImageUrl}
+            src={imageUrl}
             alt={albumName}
             width={48}
             height={48}

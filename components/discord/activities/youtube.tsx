@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityAssetUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
 
 interface YoutubeActivityProps {
   activity: LanyardActivity
@@ -28,8 +28,10 @@ export function YoutubeActivity({ activity, progress: parentProgress }: YoutubeA
     return () => clearInterval(interval)
   }, [activity])
 
-  const largeImageUrl =
-    getActivityAssetUrl(activity.application_id, activity.assets?.large_image) || "/discord-unknown.png"
+  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+
+  useEffect(() => {
+    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
 
   const videoTitle = activity.details || "Unknown Video"
   const channelName = activity.state || "Unknown Channel"
@@ -39,7 +41,7 @@ export function YoutubeActivity({ activity, progress: parentProgress }: YoutubeA
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={largeImageUrl}
+            src={imageUrl}
             alt={channelName}
             width={48}
             height={48}
