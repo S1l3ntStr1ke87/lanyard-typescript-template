@@ -226,6 +226,10 @@ export function getActivityAssetUrl(
     return `https://media.discordapp.net/external/${externalUrl}`
   }
 
+  if (assetId.startsWith("mp:attachments/")) {
+  return `https://media.discordapp.net/attachments/${assetId.replace("mp:attachments/", "")}`
+  }
+
   // Check if it's a Spotify image
   if (assetId.startsWith("spotify:")) {
     return `https://i.scdn.co/image/${assetId.replace("spotify:", "")}`

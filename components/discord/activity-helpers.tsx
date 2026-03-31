@@ -1,11 +1,12 @@
 import { useLanyard } from "@/hooks/use-lanyard"
+import { AimpActivity } from "./activities/aimp"
 
 export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
 const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
 const otherActivities = mainActivities?.filter(
-  (a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000" && a.name !== "YouTube" && a.name !== "YouTube Music"
+  (a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000" && a.name !== "YouTube" && a.name !== "YouTube Music" && a.name !== "AIMP"
 ) ?? []
 
 const appleMusicActivity = data?.activities.find(
@@ -27,5 +28,10 @@ const appleMusicActivity = data?.activities.find(
       a.name === "YouTube Music"
   )  
 
-  return { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity }
+  const aimpactivity = data?.activities.find(
+    (a) =>
+      a.name === "AIMP"
+  )
+
+  return { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity }
 }

@@ -12,6 +12,7 @@ import { Foobar2000Activity } from "./activities/foobar2000"
 import { useActivityHelpers } from "./activity-helpers"
 import { YoutubeActivity } from "./activities/youtube"
 import { YoutubeMusicActivity } from "./activities/youtubemusic"
+import { AimpActivity } from "./activities/aimp"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -32,7 +33,7 @@ interface DiscordPresenceProps {
 }
 
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
-  const { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity } = useActivityHelpers(userId)
+  const { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity } = useActivityHelpers(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
 
   // Update elapsed time every second
@@ -190,6 +191,11 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         {/* ── Youtube Activity ── */}
         {youtubemusicActivity && (
           <YoutubeMusicActivity activity={youtubemusicActivity} />
+        )}
+
+        {/* ── AIMP Activity ── */}
+        {aimpactivity && (
+          <AimpActivity activity={aimpactivity} />
         )}
 
         {/* ── Other Activities ── */}
