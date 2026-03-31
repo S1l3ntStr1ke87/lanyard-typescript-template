@@ -149,7 +149,7 @@ export function useLanyard(userId: string) {
   }, [userId])
 
   // Fallback to REST API if WebSocket fails
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (): Promise<boolean> => {
     try {
       const response = await fetch(`${LANYARD_API_URL}/${userId}`)
       const json = await response.json()
@@ -157,30 +157,25 @@ export function useLanyard(userId: string) {
       if (json.success) {
         setData(json.data)
         setError(null)
+        return true
       } else {
-        setError(json.error?.message || "Failed to fetch presence data")
+        setError("user_not_monitored")
+        return false
       }
     } catch (err) {
       setError("Failed to fetch presence data")
+      return false
     } finally {
       setLoading(false)
     }
   }, [userId])
 
   useEffect(() => {
-    // Try WebSocket first
-    connect()
-
-    // Fallback to REST API after 3 seconds if no data
-    const fallbackTimeout = setTimeout(() => {
-      if (loading && !data) {
-        fetchData()
-      }
-    }, 3000)
+    fetchData().then((monitored) => {
+      if (monitored) { connect() }
+    })
 
     return () => {
-      clearTimeout(fallbackTimeout)
-
       if (wsRef.current) {
         wsRef.current.close()
         wsRef.current = null
@@ -228,7 +223,7 @@ export function getActivityAssetUrl(
 
   if (assetId.startsWith("mp:attachments/")) {
   return `https://media.discordapp.net/attachments/${assetId.replace("mp:attachments/", "")}`
-  }
+ }
 
   // Check if it's a Spotify image
   if (assetId.startsWith("spotify:")) {

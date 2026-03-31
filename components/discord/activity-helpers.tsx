@@ -1,5 +1,4 @@
 import { useLanyard } from "@/hooks/use-lanyard"
-import { AimpActivity } from "./activities/aimp"
 
 export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
