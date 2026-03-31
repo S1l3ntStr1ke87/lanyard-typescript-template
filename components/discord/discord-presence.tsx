@@ -10,6 +10,8 @@ import { SpotifyActivity } from "./activities/spotify"
 import { AppleMusicActivity } from "./activities/applemusic"
 import { Foobar2000Activity } from "./activities/foobar2000"
 import { useActivityHelpers } from "./activity-helpers"
+import { YoutubeActivity } from "./activities/youtube"
+import { YoutubeMusicActivity } from "./activities/youtubemusic"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -30,7 +32,7 @@ interface DiscordPresenceProps {
 }
 
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
-  const { data, loading, error, appleMusicActivity, foobar2000Activity } = useActivityHelpers(userId)
+  const { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity } = useActivityHelpers(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
 
   // Update elapsed time every second
@@ -180,10 +182,18 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
           <Foobar2000Activity activity={foobar2000Activity} />
         )}
 
+        {/* ── Youtube Activity ── */}
+        {youtubeActivity && (
+          <YoutubeActivity activity={youtubeActivity} />
+        )}
+
+        {/* ── Youtube Activity ── */}
+        {youtubemusicActivity && (
+          <YoutubeMusicActivity activity={youtubemusicActivity} />
+        )}
+
         {/* ── Other Activities ── */}
-        {mainActivities
-          .filter((a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000")
-          .map((activity) => (
+        {otherActivities.map((activity) => (
             <ActivityCard
               key={activity.id}
               activity={activity}
