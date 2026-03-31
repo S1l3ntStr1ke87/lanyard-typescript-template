@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityAssetUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { useLanyard, getActivityAssetUrl, type LanyardActivity } from "@/hooks/use-lanyard"
 
 interface Foobar2000ActivityProps {
   activity: LanyardActivity
@@ -13,7 +13,11 @@ interface Foobar2000ActivityProps {
 export function Foobar2000Activity({ activity, progress: parentProgress }: Foobar2000ActivityProps) {
   const [progress, setProgress] = useState<number>(parentProgress ?? 0)
 
+  const hasTimestamps = !!(activity.timestamps?.start && activity.timestamps?.end)
+  const showProgress = hasTimestamps
+
   useEffect(() => {
+    if (!showProgress) return
     const updateProgress = () => {
       if (!activity.timestamps?.start || !activity.timestamps?.end) return
 
@@ -26,14 +30,16 @@ export function Foobar2000Activity({ activity, progress: parentProgress }: Fooba
     updateProgress()
     const interval = setInterval(updateProgress, 1000)
     return () => clearInterval(interval)
-  }, [activity])
+  }, [activity, showProgress])
 
   const largeImageUrl =
     getActivityAssetUrl(activity.application_id, activity.assets?.large_image) || "/discord-unknown.png"
 
-  const albumName = activity.assets?.large_text || "Foobar2000"
+  const rawalbumName = activity.assets?.large_text || "Foobar2000"
+  const albumName = rawalbumName.startsWith("on ") ? rawalbumName.slice(3) : rawalbumName 
   const songTitle = activity.details || "Unknown Song"
-  const artist = activity.state || "Unknown Artist"
+  const rawArtist = activity.state || "Unknown Artist"
+  const artist = rawArtist.startsWith("by ") ? rawArtist.slice(3) : rawArtist
 
   return (
     <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
@@ -60,14 +66,14 @@ export function Foobar2000Activity({ activity, progress: parentProgress }: Fooba
           <p className="text-muted-foreground text-xs truncate">By: {artist}</p>
         </div>
       </div>
-
-      {/* Progress bar */}
+      {showProgress && (
       <div className="mt-2 h-1 bg-green-900/30 rounded-full overflow-hidden">
         <div
           className="h-full bg-green-500 transition-all duration-1000 ease-linear"
           style={{ width: `${progress}%` }}
         />
       </div>
+    )}
     </div>
   )
 }
