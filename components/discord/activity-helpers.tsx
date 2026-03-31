@@ -5,7 +5,7 @@ const { data, loading, error } = useLanyard(userId)
 const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
 const otherActivities = mainActivities?.filter(
-  (a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000" && a.name !== "YouTube"
+  (a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000" && a.name !== "YouTube" && a.name !== "YouTube Music"
 ) ?? []
 
 const appleMusicActivity = data?.activities.find(
