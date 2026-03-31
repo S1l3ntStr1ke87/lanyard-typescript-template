@@ -73,7 +73,7 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
     )
   }
 
-  if (error === "user_not_monitored") return null
+  if (loading || (!error && !data)) return
   if (error || !data) {
     return (
       <Card>

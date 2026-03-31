@@ -89,7 +89,7 @@ export function useLanyard(userId: string) {
       wsRef.current = ws
 
       ws.onopen = () => {
-        setError(null)
+        if (error !== "user_not_monitored") setError(null)
       }
 
       ws.onmessage = (event) => {
@@ -191,7 +191,7 @@ export function useLanyard(userId: string) {
         reconnectTimeoutRef.current = null
       }
     }
-  }, [connect, fetchData, loading, data])
+  }, [connect, fetchData])
 
   return { data, loading, error }
 }
