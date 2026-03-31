@@ -15,6 +15,7 @@ import {
 import { Music, Gamepad2, Monitor, Smartphone, Globe } from "lucide-react"
 import { SpotifyActivity } from "./activities/spotify"
 import { AppleMusicActivity } from "./activities/applemusic"
+import { Foobar2000Activity } from "./activities/foobar2000"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -41,6 +42,10 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
   (a) =>
     a.name === "Apple Music" ||
     a.assets?.small_text === "Apple Music"
+  )
+  const foobar2000Activity = data?.activities.find(
+    (a) =>
+      a.name === "foobar2000"
   )
 
   // Update elapsed time every second
@@ -184,10 +189,15 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         {appleMusicActivity && (
           <AppleMusicActivity activity={appleMusicActivity} />
         )}
+        
+        {/* ── Foobar2000 Activity ── */}
+        {foobar2000Activity && (
+          <Foobar2000Activity activity={foobar2000Activity} />
+        )}
 
         {/* ── Other Activities ── */}
         {mainActivities
-          .filter((a) => a.name !== "Spotify" && a.name !== "Apple Music")
+          .filter((a) => a.name !== "Spotify" && a.name !== "Apple Music" && a.name !== "foobar2000")
           .map((activity) => (
             <ActivityCard
               key={activity.id}
