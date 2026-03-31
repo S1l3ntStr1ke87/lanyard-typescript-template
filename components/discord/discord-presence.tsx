@@ -11,8 +11,10 @@ import {
   formatElapsedTime,
   getStatusColor,
   type LanyardActivity,
-} from "../hooks/use-lanyard"
+} from "../../hooks/use-lanyard"
 import { Music, Gamepad2, Monitor, Smartphone, Globe } from "lucide-react"
+import { SpotifyActivity } from "./activities/spotify"
+import { AppleMusicActivity } from "./activities/applemusic"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -35,8 +37,6 @@ interface DiscordPresenceProps {
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
   const { data, loading, error } = useLanyard(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
-  const [spotifyProgress, setSpotifyProgress] = useState<number>(0)
-  const [appleMusicProgress, setAppleMusicProgress] = useState<number>(0)
   const appleMusicActivity = data?.activities.find(
   (a) =>
     a.name === "Apple Music" ||
@@ -48,34 +48,13 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
     if (!data) return
 
     const updateTimes = () => {
-      // Update activity elapsed time
-      const mainActivity = data.activities.find((a) => a.type !== 4 && a.timestamps?.start)
+      const mainActivity = data.activities.find((a) => a.type !== 4)
       if (mainActivity?.timestamps?.start) {
         setElapsedTime(formatElapsedTime(mainActivity.timestamps.start))
       }
-
-      // Update Spotify progress
-      if (data.listening_to_spotify && data.spotify) {
-        const { start, end } = data.spotify.timestamps
-        const now = Date.now()
-        const progress = ((now - start) / (end - start)) * 100
-        setSpotifyProgress(Math.min(100, Math.max(0, progress)))
-      }
-
-      // Update Apple Music progress
-      if (appleMusicActivity && appleMusicActivity.timestamps) {
-        if (appleMusicActivity?.timestamps?.start && appleMusicActivity?.timestamps?.end) {
-          const { start, end } = appleMusicActivity.timestamps
-          const now = Date.now()
-          const progress = ((now - start) / (end - start)) * 100
-          setAppleMusicProgress(Math.min(100, Math.max(0, progress)))
-        } 
-      }
     }
-
     updateTimes()
     const interval = setInterval(updateTimes, 1000)
-
     return () => clearInterval(interval)
   }, [data])
 
@@ -123,7 +102,8 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
     data.discord_user.global_name || data.discord_user.display_name || data.discord_user.username
 
   // Get the main activity (not custom status, which is type 4)
-  const mainActivity = data.activities.find((a) => a.type !== 4)
+  const mainActivities = data.activities.filter((a) => a.type !== 4)
+  const mainActivity = mainActivities[0] // keep for elapsed time hook
   const customStatus = data.activities.find((a) => a.type === 4)
 
   // Collect active platform indicators
@@ -197,83 +177,24 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
 
         {/* ── Spotify Activity ── */}
         {data.listening_to_spotify && data.spotify && (
-          <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
-                <Image
-                  src={data.spotify.album_art_url}
-                  alt={data.spotify.album}
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <Music className="w-3 h-3 text-green-500" />
-                  <span className="text-green-500 text-xs uppercase font-semibold">
-                    Listening to Spotify
-                  </span>
-                </div>
-                <p className="text-sm font-medium truncate">{data.spotify.song}</p>
-                <p className="text-muted-foreground text-xs truncate">On: {data.spotify.album}</p>
-                <p className="text-muted-foreground text-xs truncate">By: {data.spotify.artist}</p>
-              </div>
-            </div>
-            {/* Progress bar */}
-            <div className="mt-2 h-1 bg-green-900/30 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500 transition-all duration-1000 ease-linear"
-                style={{ width: `${spotifyProgress}%` }}
-              />
-            </div>
-          </div>
+          <SpotifyActivity spotify={data.spotify} />
         )}
 
         {/* ── Apple Music Activity ── */}
         {appleMusicActivity && (
-          <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
-                <Image
-                  src={getActivityAssetUrl(appleMusicActivity.application_id, appleMusicActivity.assets?.large_image) || "/discord-unknown.png"}
-                  alt={appleMusicActivity.assets?.large_text || "Apple Music"}
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <Music className="w-3 h-3 text-green-500" />
-                  <span className="text-green-500 text-xs uppercase font-semibold">
-                    Listening to Apple Music
-                  </span>
-                </div>
-                <p className="text-sm font-medium truncate">{appleMusicActivity?.details}</p>
-                <p className="text-muted-foreground text-xs truncate">On: {appleMusicActivity?.assets?.large_text}</p>
-                <p className="text-muted-foreground text-xs truncate">By: {appleMusicActivity?.state}</p>
-              </div>
-            </div>
-            {/* Progress bar */}
-            <div className="mt-2 h-1 bg-green-900/30 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500 transition-all duration-1000 ease-linear"
-                style={{ width: `${appleMusicProgress}%` }}
-              />
-            </div>
-          </div>
+          <AppleMusicActivity activity={appleMusicActivity} />
         )}
 
         {/* ── Other Activities ── */}
-        {mainActivity &&
-          mainActivity.name !== "Spotify" &&
-          mainActivity.name !== "Apple Music" && (
-            <ActivityCard activity={mainActivity} elapsedTime={elapsedTime} />
-          )
-        }
+        {mainActivities
+          .filter((a) => a.name !== "Spotify" && a.name !== "Apple Music")
+          .map((activity) => (
+            <ActivityCard
+              key={activity.id}
+              activity={activity}
+              elapsedTime={elapsedTime}
+            />
+          ))}
 
         {/* ── Idle / Offline fallback ── */}
         {!mainActivity && !data.listening_to_spotify && (

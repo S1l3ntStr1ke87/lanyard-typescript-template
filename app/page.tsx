@@ -13,7 +13,7 @@
 //   https://discord.gg/lanyard
 // ───────────────────────────────────────────────
 
-import { DiscordPresence } from "@/components/discord-presence"
+import { DiscordPresence } from "@/components/discord/discord-presence"
 
 const MY_DISCORD_USER_ID = "YOUR_DISCORD_USER_ID"
 

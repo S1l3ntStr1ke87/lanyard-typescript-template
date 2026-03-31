@@ -31,9 +31,15 @@ lanyard-discord-presence-template/
 ├── hooks/
 │   └── use-lanyard.ts          # WebSocket hook + REST fallback + helper utilities
 ├── components/
-│   └── discord-presence.tsx    # Ready-to-use React component
-├── example/
+│   └── discord/
+│       │ └── discord-presence.tsx    # Ready-to-use React component
+│       └── activites/
+│           │└── applemusic.tsx # Apple Music Activity
+│           └── spotify.tsx # Spotify Activity
+├── app/
 │   └── page.tsx                # Minimal usage example
+├── public/
+│   └── discord-unkown.png # Discord missing presence image, image
 └── README.md
 ```
 
