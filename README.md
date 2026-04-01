@@ -36,7 +36,7 @@ lanyard-discord-presence-template/
 │       ││└── activity-helpers.tsx
 │       │└── discord-presence.tsx # Ready-to-use React component
 │       └── activites/
-│           ││││││││└── aimp.tsx
+│           │││││││└── aimp.tsx
 │           ││││││└── applemusic.tsx
 │           │││││└── foobar2000.tsx
 │           ││││└── soundcloud.tsx
