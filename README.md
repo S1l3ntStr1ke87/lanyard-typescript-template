@@ -47,7 +47,7 @@ lanyard-discord-presence-template/
 ├── app/
 │   └── page.tsx # Minimal usage example
 ├── public/
-│   └── discord-unkown.png # Discord missing presence image, image
+│   └── discord-unknown.png # Discord missing presence image
 └── README.md
 ```
 
