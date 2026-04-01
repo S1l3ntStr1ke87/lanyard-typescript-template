@@ -32,12 +32,18 @@ lanyard-discord-presence-template/
 │   └── use-lanyard.ts # WebSocket hook + REST fallback + helper utilities
 ├── components/
 │   └── discord/
+│       │││└── activity-card.tsx
 │       ││└── activity-helpers.tsx
 │       │└── discord-presence.tsx # Ready-to-use React component
 │       └── activites/
-│           ││└── foobar2000.tsx # Foobar2000 Activity
-│           │└── applemusic.tsx # Apple Music Activity
-│           └── spotify.tsx # Spotify Activity
+│           ││││││││└── aimp.tsx
+│           ││││││└── applemusic.tsx
+│           │││││└── foobar2000.tsx
+│           ││││└── soundcloud.tsx
+│           │││└── spotify.tsx
+│           ││└── twitch.tsx
+│           │└── youtube.tsx
+│           └── youtubemusic.tsx
 ├── app/
 │   └── page.tsx # Minimal usage example
 ├── public/
@@ -52,8 +58,9 @@ lanyard-discord-presence-template/
 ### 1. Copy the files into your project
 
 ```
-hooks/use-lanyard.ts          →  hooks/use-lanyard.ts
-components/discord-presence.tsx  →  components/discord-presence.tsx
+public/discord-unkown.png → public/discord-unkown.png
+hooks/use-lanyard.ts → hooks/use-lanyard.ts
+components/discord/ → components/discord/
 ```
 
 ### 2. Install dependencies
