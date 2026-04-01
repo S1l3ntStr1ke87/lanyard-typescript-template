@@ -32,24 +32,25 @@ export function Foobar2000Activity({ activity, progress: parentProgress }: Fooba
     return () => clearInterval(interval)
   }, [activity, showProgress])
 
-  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+  const isKizzy = activity.application_id === "1413566530020446230"
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {
-    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
-  const rawalbumName = activity.assets?.large_text || "Foobar2000"
-  const albumName = rawalbumName.startsWith("on ") ? rawalbumName.slice(3) : rawalbumName 
-  const songTitle = activity.details || "Unknown Song"
-  const rawArtist = activity.state || "Unknown Artist"
-  const artist = rawArtist.startsWith("by ") ? rawArtist.slice(3) : rawArtist
+  const rawalbumName = isKizzy ? activity.state : (activity.assets?.large_text)
+  const albumName = rawalbumName?.startsWith("on ") ? rawalbumName.slice(3) : (rawalbumName ?? "Foobar2000")
+  const songTitle = isKizzy ? activity.name : activity.details || "Unknown Song"
+  const rawArtist = isKizzy ? activity.details : activity.state
+  const artist = rawArtist?.startsWith("by ") ? rawArtist.slice(3) : (rawArtist ?? "Unknown Artist")
 
   return (
     <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={imageUrl}
-            alt={albumName}
+            src={largeImage}
+            alt={albumName || "Album Art"}
             width={48}
             height={48}
             className="w-full h-full object-cover"

@@ -11,10 +11,10 @@ interface TwitchActivityProps {
 }
 
 export function TwitchActivity({ activity }: TwitchActivityProps) {
-  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {
-    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
   const videoTitle = activity.details || "Unknown Video"
   const channelName = activity.state || "Unknown Channel"
@@ -24,7 +24,7 @@ export function TwitchActivity({ activity }: TwitchActivityProps) {
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={imageUrl}
+            src={largeImage}
             alt={channelName}
             width={48}
             height={48}

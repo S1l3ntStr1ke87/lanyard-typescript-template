@@ -28,10 +28,10 @@ export function SoundcloudActivity({ activity, progress: parentProgress }: Sound
     return () => clearInterval(interval)
   }, [activity])
 
-  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {
-    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
   const songTitle = activity.details || "Unknown Song"
   const largeImageUrl = activity.assets?.large_url || "/"
@@ -43,7 +43,7 @@ export function SoundcloudActivity({ activity, progress: parentProgress }: Sound
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
         <a href={largeImageUrl} target="_blank" rel="noopener noreferrer">
           <Image
-            src={imageUrl}
+            src={largeImage}
             alt={songTitle}
             width={48}
             height={48}

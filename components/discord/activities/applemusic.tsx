@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getAppIconUrl, getActivityAssetUrl, type LanyardActivity, getActivityImageUrl } from "@/hooks/use-lanyard"
+import { LanyardActivity, getActivityImageUrl } from "@/hooks/use-lanyard"
 
 interface AppleMusicActivityProps {
   activity: LanyardActivity
@@ -29,11 +29,10 @@ export function AppleMusicActivity({ activity, progress: parentProgress }: Apple
   }, [activity])
 
   const isKizzy = activity.type === 0
-
-  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {
-    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
   const albumName = isKizzy ? activity.state : (activity.assets?.large_text || "Apple Music")
   const songTitle = isKizzy ? activity.name : activity.details || "Unknown Song"
@@ -44,8 +43,8 @@ export function AppleMusicActivity({ activity, progress: parentProgress }: Apple
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={imageUrl}
-            alt="Album Art"
+            src={largeImage}
+            alt={albumName || "Album Art"}
             width={48}
             height={48}
             className="w-full h-full object-cover"

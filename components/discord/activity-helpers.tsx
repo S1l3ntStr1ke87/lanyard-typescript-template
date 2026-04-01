@@ -4,7 +4,7 @@ export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
 const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
-  const appleMusicActivity = data?.activities.find(
+  const applemusicActivity = data?.activities.find(
     (a) =>
       a.name === "Apple Music" ||
       a.assets?.small_text === "Apple Music" ||
@@ -13,7 +13,9 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
   const foobar2000Activity = data?.activities.find(
     (a) =>
-      a.name === "foobar2000"
+      a.name === "foobar2000" ||
+      a.assets?.small_text === "foobar2000" ||
+      a.assets?.large_text === "foobar2000"
   )
 
   const youtubeActivity = data?.activities.find(
@@ -23,6 +25,7 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
   const twitchactivity = data?.activities.find(
     (a) =>
+      a.name === "Twitch" ||
       a.application_id === "802958789555781663"
   )
 
@@ -33,7 +36,9 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
   const aimpactivity = data?.activities.find(
     (a) =>
-      a.name === "AIMP"
+      a.name === "AIMP" ||
+      a.assets?.small_text === "AIMP" ||
+      a.assets?.large_text === "AIMP"
   )
 
   const soundcloudactivity = data?.activities.find(
@@ -41,19 +46,25 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
       a.name === "SoundCloud"
   )
 
+  const spotifyactivity = data?.activities.find(
+    (a) =>
+      a.name === "Spotify"
+  )
+
 const activities = [
-  appleMusicActivity,
+  applemusicActivity,
   foobar2000Activity,
   youtubeActivity,
   youtubemusicActivity,
   aimpactivity,
   soundcloudactivity,
   twitchactivity,
+  spotifyactivity,
 ].filter(Boolean)
 
 const otherActivities = mainActivities.filter(
   (a) => !activities.some((s) => s?.id === a.id)
 )
 
-  return { data, loading, error, otherActivities, appleMusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity }
+  return { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity }
 }

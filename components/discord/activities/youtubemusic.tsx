@@ -28,10 +28,10 @@ export function YoutubeMusicActivity({ activity, progress: parentProgress }: You
     return () => clearInterval(interval)
   }, [activity])
 
-  const [imageUrl, setImageUrl] = useState("/discord-unknown.png")
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {
-    getActivityImageUrl(activity.application_id, activity.assets).then(setImageUrl)}, [activity.application_id, activity.assets])
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
   const songTitle = activity.details || "Unknown Song"
   const albumName = activity.assets?.large_text || "Unknown Album"
@@ -42,7 +42,7 @@ export function YoutubeMusicActivity({ activity, progress: parentProgress }: You
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={imageUrl}
+            src={largeImage}
             alt={albumName}
             width={48}
             height={48}
