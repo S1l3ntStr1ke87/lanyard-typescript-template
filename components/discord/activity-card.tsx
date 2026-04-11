@@ -14,12 +14,12 @@ interface ActivityCardProps {
 
 export function ActivityCard({ activity, elapsedTime }: ActivityCardProps) {
   const [largeImage, setLargeImage] = useState("/discord-unknown.png");
-  const [smallImage, setSmallImage] = useState("/discord-unknown.png");
+  const [smallImage, setSmallImage] = useState("");
   useEffect(() => {
     getActivityImageUrl(activity.application_id, activity.assets).then(
       ([large, small]) => {
         setLargeImage(large);
-        setSmallImage(small);
+        setSmallImage(small === large ? "" : small);
       }
     );
   }, [activity.application_id, activity.assets]);

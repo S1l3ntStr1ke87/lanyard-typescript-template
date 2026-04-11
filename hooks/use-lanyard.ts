@@ -251,10 +251,9 @@ export async function getAppIconUrl(applicationId: string): Promise<string | nul
 }
 
 export async function getActivityImageUrl(applicationId: string | undefined, assets?: LanyardActivity["assets"]): Promise<[string, string]> {
-  return [
-    getActivityAssetUrl(applicationId, assets?.large_image) || (applicationId ? await getAppIconUrl(applicationId) : null) || "/discord-unknown.png",
-    getActivityAssetUrl(applicationId, assets?.small_image) || (applicationId ? await getAppIconUrl(applicationId) : null) || "/discord-unknown.png",
-  ];
+  const large = getActivityAssetUrl(applicationId, assets?.large_image) || (applicationId ? await getAppIconUrl(applicationId) : null) || "/discord-unknown.png";
+  const small = getActivityAssetUrl(applicationId, assets?.small_image) || "";
+  return [large, small];
 }
 
 // Helper to format elapsed time
