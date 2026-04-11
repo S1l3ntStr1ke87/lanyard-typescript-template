@@ -1,6 +1,6 @@
 # Lanyard Discord Presence – Next.js Template
 
-Forked from [veeeanti/lanyard-typescript-template](https://github.com/veeeanti/lanyard-typescript-template)
+Forked from [veeeanti/lanyard-typescript-template](https://github.com/veeeanti/lanyard-typescript-template)   
 A plug-and-play Discord presence card for **Next.js** (App Router) sites, powered by the [Lanyard](https://lanyard.rest) API.
 
 Displays:
