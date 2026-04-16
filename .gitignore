@@ -1,0 +1,14 @@
+tailwind.config.js
+postcss.config.js
+components/ui/
+node_modules/
+/app/layout.tsx
+components.json
+/app/index.css
+next.config.ts
+tsconfig.json
+next-env.d.ts
+package.json
+bun.lock
+.next/
+lib/

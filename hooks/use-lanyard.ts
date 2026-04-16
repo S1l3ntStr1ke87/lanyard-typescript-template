@@ -64,6 +64,8 @@ export interface LanyardData {
   active_on_discord_web: boolean
   active_on_discord_desktop: boolean
   active_on_discord_mobile: boolean
+  active_on_discord_embedded: boolean
+  active_on_discord_vr: boolean
 }
 
 interface LanyardWebSocketMessage {
