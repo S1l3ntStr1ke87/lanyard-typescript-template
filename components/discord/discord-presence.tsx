@@ -16,6 +16,7 @@ import { YoutubeMusicActivity } from "./activities/youtubemusic"
 import { AimpActivity } from "./activities/aimp"
 import { SoundcloudActivity } from "./activities/soundcloud"
 import { TwitchActivity } from "./activities/twitch"
+import { PlexActivity } from "./activities/plex"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -36,7 +37,7 @@ interface DiscordPresenceProps {
 }
 
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
-  const { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity } = useActivityHelpers(userId)
+  const { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, plexactivity } = useActivityHelpers(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
 
   // Update elapsed time every second
@@ -210,6 +211,11 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         {/* ── SoundCloud Activity ── */}
         {soundcloudactivity && (
           <SoundcloudActivity activity={soundcloudactivity} />
+        )}
+
+        {/* ── Plex Activity ── */}
+        {plexactivity && (
+          <PlexActivity activity={plexactivity} />
         )}
 
         {/* ── Other Activities ── */}

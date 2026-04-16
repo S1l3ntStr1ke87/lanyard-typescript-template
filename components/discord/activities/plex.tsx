@@ -3,33 +3,42 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import type { SpotifyActivityProps } from "../activity-helpers"
+import { getActivityImageUrl } from "@/hooks/use-lanyard"
+import type { ActivityProps } from "../activity-helpers"
 
-export function SpotifyActivity({ spotify, progress: parentProgress }: SpotifyActivityProps) {
+export function PlexActivity({ activity, progress: parentProgress }: ActivityProps) {
   const [progress, setProgress] = useState<number>(parentProgress ?? 0)
 
   useEffect(() => {
     const updateProgress = () => {
-      const { start, end } = spotify.timestamps
-      if (start && end) {
-        const now = Date.now()
-        const prog = ((now - start) / (end - start)) * 100
-        setProgress(Math.min(100, Math.max(0, prog)))
-      }
+      if (!activity.timestamps?.start || !activity.timestamps?.end) return
+
+      const { start, end } = activity.timestamps
+      const now = Date.now()
+      const prog = ((now - start) / (end - start)) * 100
+      setProgress(Math.min(100, Math.max(0, prog)))
     }
 
     updateProgress()
     const interval = setInterval(updateProgress, 1000)
     return () => clearInterval(interval)
-  }, [spotify])
+  }, [activity])
+
+  const [largeImage, setLargeImage] = useState("/discord-unknown.png");
+
+  useEffect(() => {
+    getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
+
+  const mediaTitle = activity.details || "Unknown Series"
+  const seriesName = activity.state || "Unknown Season/Movie"
 
   return (
     <div className="rounded-lg p-3 border border-green-500/30 bg-green-500/10">
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
           <Image
-            src={spotify.album_art_url}
-            alt={spotify.album}
+            src={largeImage}
+            alt={seriesName}
             width={48}
             height={48}
             className="w-full h-full object-cover"
@@ -40,12 +49,11 @@ export function SpotifyActivity({ spotify, progress: parentProgress }: SpotifyAc
           <div className="flex items-center gap-2 mb-1">
             <Music className="w-3 h-3 text-green-500" />
             <span className="text-green-500 text-xs uppercase font-semibold">
-              Listening to Spotify
+              Watching Plex
             </span>
           </div>
-          <p className="text-sm font-medium truncate">{spotify.song}</p>
-          <p className="text-muted-foreground text-xs truncate">On: {spotify.album}</p>
-          <p className="text-muted-foreground text-xs truncate">By: {spotify.artist}</p>
+          <p className="text-sm font-medium truncate">{mediaTitle}</p>
+          <p className="text-muted-foreground text-xs truncate">{seriesName}</p>
         </div>
       </div>
 

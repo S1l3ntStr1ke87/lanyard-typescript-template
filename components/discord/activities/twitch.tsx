@@ -2,15 +2,11 @@
 
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl} from "@/hooks/use-lanyard"
 import { useEffect, useState } from "react"
+import type { ActivityProps } from "../activity-helpers"
 
-interface TwitchActivityProps {
-  activity: LanyardActivity
-  progress?: number // optional, allows passing progress from parent
-}
-
-export function TwitchActivity({ activity }: TwitchActivityProps) {
+export function TwitchActivity({ activity }: ActivityProps) {
   const [largeImage, setLargeImage] = useState("/discord-unknown.png");
 
   useEffect(() => {

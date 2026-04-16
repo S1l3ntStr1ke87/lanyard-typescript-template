@@ -3,14 +3,10 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { LanyardActivity, getActivityImageUrl } from "@/hooks/use-lanyard"
+import { getActivityImageUrl } from "@/hooks/use-lanyard"
+import type { ActivityProps } from "../activity-helpers"
 
-interface AppleMusicActivityProps {
-  activity: LanyardActivity
-  progress?: number // optional, allows passing progress from parent
-}
-
-export function AppleMusicActivity({ activity, progress: parentProgress }: AppleMusicActivityProps) {
+export function AppleMusicActivity({ activity, progress: parentProgress }: ActivityProps) {
   const [progress, setProgress] = useState<number>(parentProgress ?? 0)
 
   useEffect(() => {

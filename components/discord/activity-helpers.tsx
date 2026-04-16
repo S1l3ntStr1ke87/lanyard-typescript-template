@@ -1,4 +1,20 @@
+import { LanyardSpotify, type LanyardActivity } from "@/hooks/use-lanyard"
 import { useLanyard } from "@/hooks/use-lanyard"
+
+export interface ActivityCardProps {
+  activity: LanyardActivity
+  elapsedTime: string
+}
+
+export interface ActivityProps {
+  activity: LanyardActivity
+  progress?: number
+}
+
+export interface SpotifyActivityProps {
+  spotify: LanyardSpotify
+  progress?: number
+}
 
 export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
@@ -51,6 +67,11 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
       a.name === "Spotify"
   )
 
+  const plexactivity = data?.activities.find(
+    (a) =>
+      a.name === "Plex"
+  )
+
 const activities = [
   applemusicActivity,
   foobar2000Activity,
@@ -60,11 +81,12 @@ const activities = [
   soundcloudactivity,
   twitchactivity,
   spotifyactivity,
+  plexactivity
 ].filter(Boolean)
 
 const otherActivities = mainActivities.filter(
   (a) => !activities.some((s) => s?.id === a.id)
 )
 
-  return { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity }
+  return { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity, plexactivity }
 }

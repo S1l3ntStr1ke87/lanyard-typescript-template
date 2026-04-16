@@ -3,14 +3,10 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl } from "@/hooks/use-lanyard"
+import type { ActivityProps } from "../activity-helpers"
 
-interface SoundcloudActivityProps {
-  activity: LanyardActivity
-  progress?: number // optional, allows passing progress from parent
-}
-
-export function SoundcloudActivity({ activity, progress: parentProgress }: SoundcloudActivityProps) {
+export function SoundcloudActivity({ activity, progress: parentProgress }: ActivityProps) {
   const [progress, setProgress] = useState<number>(parentProgress ?? 0)
 
   useEffect(() => {
@@ -34,7 +30,7 @@ export function SoundcloudActivity({ activity, progress: parentProgress }: Sound
     getActivityImageUrl(activity.application_id, activity.assets).then(([large]) => { setLargeImage(large);}) }, [activity.application_id, activity.assets]);
 
   const songTitle = activity.details || "Unknown Song"
-  const largeImageUrl = activity.assets?.large_url || "/"
+  const largeImageUrl = activity.assets?.large_image || "/"
   const artist = activity.state || "Unknown Artist"
 
   return (

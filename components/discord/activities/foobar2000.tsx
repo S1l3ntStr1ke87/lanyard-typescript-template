@@ -3,14 +3,10 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Music } from "lucide-react"
-import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl } from "@/hooks/use-lanyard"
+import type { ActivityProps } from "../activity-helpers"
 
-interface Foobar2000ActivityProps {
-  activity: LanyardActivity
-  progress?: number // optional, allows passing progress from parent
-}
-
-export function Foobar2000Activity({ activity, progress: parentProgress }: Foobar2000ActivityProps) {
+export function Foobar2000Activity({ activity, progress: parentProgress }: ActivityProps) {
   const [progress, setProgress] = useState<number>(parentProgress ?? 0)
 
   const hasTimestamps = !!(activity.timestamps?.start && activity.timestamps?.end)

@@ -1,16 +1,12 @@
 import Image from "next/image"
 import { Music, Gamepad2 } from "lucide-react"
-import { getActivityImageUrl, type LanyardActivity } from "@/hooks/use-lanyard"
+import { getActivityImageUrl } from "@/hooks/use-lanyard"
 import { useEffect, useState } from "react"
+import type { ActivityCardProps } from "./activity-helpers"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ActivityCard – renders a single non-Spotify Discord activity
 // ─────────────────────────────────────────────────────────────────────────────
-
-interface ActivityCardProps {
-  activity: LanyardActivity
-  elapsedTime: string
-}
 
 export function ActivityCard({ activity, elapsedTime }: ActivityCardProps) {
   const [largeImage, setLargeImage] = useState("/discord-unknown.png");
