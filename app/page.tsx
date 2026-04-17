@@ -13,9 +13,27 @@
 //   https://discord.gg/lanyard
 // ───────────────────────────────────────────────
 
-import { DiscordPresence } from "@/components/discord/discord-presence"
+import { LanyardCard } from "@/components/lanyardcard"
 
-const MY_DISCORD_USER_ID = "YOUR_DISCORD_USER_ID"
+// you can remove any of these you dont have to add one or the other for it to work
+const users = [
+  {
+    discordId: "YOUR_DISCORD_ID",
+    email: "YOUR_EMAIL",
+    reddit: "YOUR_REDDIT",
+    github: "YOUR_GITHUB",
+    gitlab: "YOUR_GITLAB",
+    website: "YOUR_WEBSITE",
+  },
+  //{ // you can delete this just an example
+  //  discordId: "SOMEONE_ELSES_DISCORD_ID",
+  //  email: "SOMEONE_ELSES_DISCORD_ID",
+  //  reddit: "SOMES_ELSES_REDDIT",
+  //  github: "SOMEONE_ELSES_DISCORD_ID",
+  //  gitlab: "SOMEONE_ELSES_DISCORD_ID",
+  //  website: "SOMEONE_ELSES_DISCORD_ID",
+  //}
+]
 
 export default function ExamplePage() {
   return (
@@ -36,8 +54,9 @@ export default function ExamplePage() {
           </p>
         </div>
 
-        {/* Drop the component anywhere you want the presence card to appear */}
-        <DiscordPresence userId={MY_DISCORD_USER_ID} />
+        {users.map((member) => (
+          <LanyardCard key={member.discordId} member={member} />
+        ))}
       </div>
     </main>
   )
