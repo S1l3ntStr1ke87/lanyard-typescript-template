@@ -2,7 +2,7 @@
 // ───────────────────────────────────────────────
 // Example page showing how to use the DiscordPresence component.
 //
-// Pulled directly from my personal website, https://vee-anti.xyz/
+// originally pulled from veeλnti's website, https://vee-anti.xyz/
 //
 // Replace YOUR_DISCORD_USER_ID with your actual Discord user ID.
 // You can find your user ID by enabling Developer Mode in Discord
