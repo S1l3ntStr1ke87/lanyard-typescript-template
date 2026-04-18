@@ -20,21 +20,27 @@ export function useActivityHelpers(userId: string) {
 const { data, loading, error } = useLanyard(userId)
 const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
 
-  const applemusicActivity = data?.activities.find(
+  const applemusicactivity = data?.activities.find(
     (a) =>
       a.name === "Apple Music" ||
       a.assets?.small_text === "Apple Music" ||
       a.assets?.large_text === "Apple Music"
   )
 
-  const foobar2000Activity = data?.activities.find(
+  const foobar2000activity = data?.activities.find(
     (a) =>
       a.name === "foobar2000" ||
       a.assets?.small_text === "foobar2000" ||
       a.assets?.large_text === "foobar2000"
   )
 
-  const youtubeActivity = data?.activities.find(
+  const fooyinactivity = data?.activities.find(
+    (a) =>
+      a.name === "fooyin" ||
+      a.assets?.small_text === "fooyin"
+  )
+
+  const youtubeactivity = data?.activities.find(
     (a) =>
       a.name === "YouTube"
   )
@@ -45,7 +51,7 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
       a.application_id === "802958789555781663"
   )
 
-  const youtubemusicActivity = data?.activities.find(
+  const youtubemusicactivity = data?.activities.find(
     (a) =>
       a.name === "YouTube Music"
   )  
@@ -73,20 +79,21 @@ const mainActivities = data?.activities.filter((a) => a.type !== 4) ?? []
   )
 
 const activities = [
-  applemusicActivity,
-  foobar2000Activity,
-  youtubeActivity,
-  youtubemusicActivity,
+  applemusicactivity,
+  foobar2000activity,
+  youtubeactivity,
+  youtubemusicactivity,
   aimpactivity,
   soundcloudactivity,
   twitchactivity,
   spotifyactivity,
-  plexactivity
+  plexactivity,
+  fooyinactivity
 ].filter(Boolean)
 
-const otherActivities = mainActivities.filter(
+const otheractivities = mainActivities.filter(
   (a) => !activities.some((s) => s?.id === a.id)
 )
 
-  return { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity, plexactivity }
+  return { data, loading, error, otheractivities, applemusicactivity, foobar2000activity, youtubeactivity, youtubemusicactivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity, plexactivity, fooyinactivity }
 }

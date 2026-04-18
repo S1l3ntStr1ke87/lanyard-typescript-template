@@ -17,6 +17,7 @@ import { AimpActivity } from "./activities/aimp"
 import { SoundcloudActivity } from "./activities/soundcloud"
 import { TwitchActivity } from "./activities/twitch"
 import { PlexActivity } from "./activities/plex"
+import { FooyinActivity } from "./activities/fooyin"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DiscordPresence
@@ -37,7 +38,7 @@ interface DiscordPresenceProps {
 }
 
 export function DiscordPresence({ userId }: DiscordPresenceProps) {
-  const { data, loading, error, otherActivities, applemusicActivity, foobar2000Activity, youtubeActivity, youtubemusicActivity, aimpactivity, soundcloudactivity, twitchactivity, plexactivity } = useActivityHelpers(userId)
+  const { data, loading, error, otheractivities, applemusicactivity, foobar2000activity, youtubeactivity, youtubemusicactivity, aimpactivity, soundcloudactivity, twitchactivity, spotifyactivity, plexactivity, fooyinactivity } = useActivityHelpers(userId)
   const [elapsedTime, setElapsedTime] = useState<string>("")
 
   // Update elapsed time every second
@@ -181,18 +182,18 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         )}
 
         {/* ── Apple Music Activity ── */}
-        {applemusicActivity && (
-          <AppleMusicActivity activity={applemusicActivity} />
+        {applemusicactivity && (
+          <AppleMusicActivity activity={applemusicactivity} />
         )}
         
         {/* ── Foobar2000 Activity ── */}
-        {foobar2000Activity && (
-          <Foobar2000Activity activity={foobar2000Activity} />
+        {foobar2000activity && (
+          <Foobar2000Activity activity={foobar2000activity} />
         )}
 
         {/* ── Youtube Activity ── */}
-        {youtubeActivity && (
-          <YoutubeActivity activity={youtubeActivity} />
+        {youtubeactivity && (
+          <YoutubeActivity activity={youtubeactivity} />
         )}
 
         {/* ── Twitch Activity ── */}
@@ -201,8 +202,8 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
         )}
 
         {/* ── Youtube Music Activity ── */}
-        {youtubemusicActivity && (
-          <YoutubeMusicActivity activity={youtubemusicActivity} />
+        {youtubemusicactivity && (
+          <YoutubeMusicActivity activity={youtubemusicactivity} />
         )}
 
         {/* ── AIMP Activity ── */}
@@ -220,8 +221,13 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
           <PlexActivity activity={plexactivity} />
         )}
 
+        {/* ── Plex Activity ── */}
+        {fooyinactivity && (
+          <FooyinActivity activity={fooyinactivity} />
+        )}
+
         {/* ── Other Activities ── */}
-        {otherActivities.map((activity) => (
+        {otheractivities.map((activity) => (
             <ActivityCard
               key={activity.id}
               activity={activity}
