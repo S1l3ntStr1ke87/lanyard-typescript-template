@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getDiscordAvatarUrl, formatElapsedTime, getStatusColor } from "@/hooks/use-lanyard"
-import { Monitor, Smartphone, Globe, Gamepad, Glasses } from "lucide-react"
+import { Monitor, Smartphone, Globe, RectangleGoggles, Gamepad2 } from "lucide-react"
 import { ActivityCard } from "./activity-card"
 import { SpotifyActivity } from "./activities/spotify"
 import { AppleMusicActivity } from "./activities/applemusic"
@@ -109,8 +109,8 @@ export function DiscordPresence({ userId }: DiscordPresenceProps) {
   if (data.active_on_discord_desktop) platforms.push({ icon: Monitor, label: "Desktop" })
   if (data.active_on_discord_mobile) platforms.push({ icon: Smartphone, label: "Mobile" })
   if (data.active_on_discord_web) platforms.push({ icon: Globe, label: "Web" })
-  if (data.active_on_discord_embedded) platforms.push({ icon: Gamepad, label: "Embedded" })
-  if (data.active_on_discord_vr) platforms.push({ icon: Glasses, label: "VR" })
+  if (data.active_on_discord_embedded) platforms.push({ icon: Gamepad2, label: "Embedded" })
+  if (data.active_on_discord_vr) platforms.push({ icon: RectangleGoggles, label: "VR" })
 
   return (
     <Card>
