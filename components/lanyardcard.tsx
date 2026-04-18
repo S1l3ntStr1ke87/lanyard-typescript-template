@@ -1,10 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Globe, ExternalLink, LucideProps, Mail } from "lucide-react"
+import { Globe, Mail } from "lucide-react"
+import { FaGithub, FaGitlab, FaReddit } from "react-icons/fa"
 import { DiscordPresence } from "@/components/discord/discord-presence"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
-
-const Gitlab: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> = require("lucide-react").Gitlab
-const Github: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> = require("lucide-react").Github
 
 interface User {
   discordId: string
@@ -36,7 +33,7 @@ export function LanyardCard({ member }: LanyardCardProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
               >
-                <Github className="h-3.5 w-3.5" />
+                <FaGithub className="h-3.5 w-3.5" />
                 GitHub
               </a>
             )}
@@ -47,7 +44,7 @@ export function LanyardCard({ member }: LanyardCardProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
               >
-                <Gitlab className="h-3.5 w-3.5" />
+                <FaGitlab className="h-3.5 w-3.5" />
                 GitLab
               </a>
             )}
@@ -58,7 +55,7 @@ export function LanyardCard({ member }: LanyardCardProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
               >
-                <ExternalLink className="h-3.5 w-3.5" />
+                <FaReddit className="h-3.5 w-3.5" />
                 Reddit
               </a>
             )}
