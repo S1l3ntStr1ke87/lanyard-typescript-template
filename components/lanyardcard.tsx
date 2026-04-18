@@ -17,7 +17,7 @@ interface LanyardCardProps {
 }
 
 export function LanyardCard({ member }: LanyardCardProps) {
-  const hasLinks = Boolean(member.github || member.reddit || member.gitlab)
+  const hasLinks = Boolean(member.github || member.reddit || member.gitlab || member.email || member.website)
 
   return (
     <Card className="group overflow-hidden rounded-3xl glass shadow-xl transition-all duration-500 h-full flex flex-col">
