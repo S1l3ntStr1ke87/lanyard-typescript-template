@@ -33,18 +33,10 @@ lanyard-discord-presence-template/
 │   └── use-lanyard.ts # WebSocket hook + REST fallback + helper utilities
 ├── components/
 │   └── discord/
-│       │││└── activity-card.tsx
-│       ││└── activity-helpers.tsx
+│       │││└── activity-card.tsx # the normal activity card for activites not in the activites folder
+│       ││└── activity-helpers.tsx # a file that holds helpers for all the other files
 │       │└── discord-presence.tsx # Ready-to-use React component
-│       └── activites/
-│           │││││││└── aimp.tsx
-│           ││││││└── applemusic.tsx
-│           │││││└── foobar2000.tsx
-│           ││││└── soundcloud.tsx
-│           │││└── spotify.tsx
-│           ││└── twitch.tsx
-│           │└── youtube.tsx
-│           └── youtubemusic.tsx
+│       └── activites # stores all the activites that work fully with this (media players / music players)
 ├── app/
 │   └── page.tsx # Minimal usage example
 ├── public/
@@ -143,7 +135,7 @@ The component is a **Client Component** (`"use client"`) and handles its own Web
 |--------|-------------|
 | `useLanyard(userId)` | React hook — returns `{ data, loading, error }` |
 | `getDiscordAvatarUrl(userId, avatarHash, size?)` | Builds the CDN URL for a user's avatar (handles animated avatars and default fallbacks) |
-| `getActivityAssetUrl(applicationId, assetId)` | Resolves activity artwork URLs (supports `mp:external/` and `spotify:` prefixes) |
+| `getActivityImageUrl(applicationId)` | Resolves activity artwork URLs (supports `mp:external/`, `mp:attachments/` and `spotify:` prefixes) |
 | `formatElapsedTime(startTimestamp)` | Returns `"H:MM:SS"` or `"M:SS"` string from a Unix ms timestamp |
 | `getStatusColor(status)` | Returns the hex colour for a Discord status string |
 

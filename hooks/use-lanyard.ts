@@ -215,7 +215,7 @@ export function getDiscordAvatarUrl(userId: string, avatarHash: string | null, s
 }
 
 // Helper function to get activity asset URL
-export function getActivityAssetUrl(
+function getActivityAssetUrl(
   applicationId: string | undefined,
   assetId: string | undefined
 ): string | null {
@@ -239,7 +239,7 @@ export function getActivityAssetUrl(
   return `https://cdn.discordapp.com/app-assets/${applicationId}/${assetId}.png`
 }
 
-export async function getAppIconUrl(applicationId: string): Promise<string | null> {
+async function getAppIconUrl(applicationId: string): Promise<string | null> {
   try {
     const res = await fetch(`https://discord.com/api/v10/applications/${applicationId}/rpc`)
     const json = await res.json()
